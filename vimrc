@@ -3,6 +3,7 @@ source ~/.vim/bundles.vim
 " encoding dectection
 set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
 
+execute pathogen#infect()
 " enable filetype dectection and ft specific plugin/indent
 filetype plugin indent on
 
@@ -14,7 +15,8 @@ syntax on
 "--------
 " color scheme
 set background=dark
-color solarized
+"color solarized
+colorscheme molokai " murphy
 
 " highlight current line
 au WinLeave * set nocursorline nocursorcolumn
@@ -57,10 +59,9 @@ set shiftwidth=4    " indent width
 " set smarttab
 set expandtab       " expand tab to space
 
-autocmd FileType php setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
 autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
 autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
-autocmd FileType coffee,javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
+autocmd FileType coffee,javascript setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
 autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
 autocmd FileType html,htmldjango,xhtml,haml setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=0
 autocmd FileType sass,scss,css setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
@@ -147,7 +148,7 @@ let NERDTreeChDirMode=2
 let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
 " let NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$',  '\~$']
 let NERDTreeShowBookmarks=1
-let NERDTreeWinPos = "right"
+" let NERDTreeWinPos = "right"
 
 " nerdcommenter
 let NERDSpaceDelims=1
@@ -266,3 +267,209 @@ if has("gui_running")
     map <D-9> 9gt
     map <D-0> :tablast<CR>
 endif
+
+" vim-go
+let g:go_fmt_command = "goimports"
+let g:go_autodetect_gopath = 1
+"let g:go_list_type = "quickfix"
+
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_generate_tags = 1
+
+" Open :GoDeclsDir with ctrl-g
+nmap <C-g> :GoDeclsDir<cr>
+imap <C-g> <esc>:<C-u>GoDeclsDir<cr>
+
+augroup go
+  autocmd!
+
+  " Show by default 4 spaces for a tab
+  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
+
+  " :GoBuild and :GoTestCompile
+  autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+
+  " :GoTest
+  autocmd FileType go nmap <leader>t  <Plug>(go-test)
+
+  " :GoRun
+  autocmd FileType go nmap <leader>r  <Plug>(go-run)
+
+  " :GoDoc
+  autocmd FileType go nmap <Leader>d <Plug>(go-doc)
+
+  " :GoCoverageToggle
+  autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
+
+  " :GoInfo
+  autocmd FileType go nmap <Leader>i <Plug>(go-info)
+
+  " :GoMetaLinter
+  autocmd FileType go nmap <Leader>l <Plug>(go-metalinter)
+
+  " :GoDef but opens in a vertical split
+  autocmd FileType go nmap <Leader>v <Plug>(go-def-vertical)
+  " :GoDef but opens in a horizontal split
+  autocmd FileType go nmap <Leader>s <Plug>(go-def-split)
+
+  " :GoAlternate  commands :A, :AV, :AS and :AT
+  autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+  autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+  autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+  autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+augroup END
+
+" build_go_files is a custom function that builds or compiles the test file.
+" It calls :GoBuild if its a Go file, or :GoTestCompile if it's a test file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#cmd#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+
+" erlang
+" 'vim-erlang/vim-erlang-skeletons'
+let g:erl_author="piaohua"
+" let g:erl_company="Me Gusta Inc"
+let g:erl_replace_buffer=1
+" let g:erl_tpl_dir="/home/herp/erlang/templates"
+
+"=============================================================
+"%%' @doc 自定义快捷键和配置
+"=============================================================
+lcd $HOME/data/golang
+nmap ;lt :NERDTree       $HOME/data<CR>
+nmap ;lg :NERDTree       $HOME/data/golang<CR>
+nmap ;ln :NERDTreeMirror<CR>
+nmap ;vim :e ~/.vimrc<CR>
+nmap ;tn :tabn<CR>
+nmap ;tp :tabp<CR>
+nmap ;tl :tabl<CR>
+nmap ;te :tabe<CR>
+nmap ;tc :tabc<CR>
+nmap ;tf :tabfir<CR>
+nmap ;bs :buffers<CR>
+nmap ;bn :bn<CR>
+nmap ;bp :bp<CR>
+nmap ;bd :bd<CR>
+nmap ;bq :q<CR>
+nmap ;no :nohl<CR>
+nmap ;tag :TlistToggle<CR>
+nmap ;sv :source ~/.vimrc<CR>
+nmap ;go :TbStart<CR>
+nmap ;gc :TbStop<CR>
+nmap ;gt :TbToggle<CR>
+nmap ;gn :Tbbn<CR>
+nmap ;gp :Tbbp<CR>
+" nmap ;ma :Matrix<CR>
+nmap ;wo <c-W>=
+nmap ;wa <c-W>+
+nmap ;wm <c-W>-
+nmap ;wb <c-W>>
+nmap ;ws <c-W><
+nmap ;wl <c-W>L
+nmap ;wh <c-W>H
+nmap ;wk <c-W>K
+nmap ;wj <c-W>J
+
+" ;16  十六进制格式查看
+" ;r16 返回普通格式
+nmap ;16 :%!xxd<CR>
+nmap ;r16 :%!xxd -r<CR>
+
+" 常规模式下输入 cS 清除行尾空格
+nmap cS :%s/\s\+$//g<CR>:noh<CR>
+
+" 将tab替换为空格
+nmap tt :%s/\t/    /g<CR>
+if has("autocmd")
+      autocmd BufReadPost *
+          \ if line("'\"") > 0 && line("'\"") <= line("$") |
+          \   exe "normal g`\"" |
+          \ endif
+endif
+
+"=============================================================
+"%%. @end 自定义快捷键和配置
+"=============================================================
+
+"=============================================================
+"%%' @doc 基础配置
+"=============================================================
+set autoread                    " 设置当文件被改动时自动载入
+set autochdir                   " 自动目录
+set hlsearch                    " 高亮搜索
+set list                        " 显示特殊字符,其中Tab使用高亮竖线代替,尾部空白使用高亮点号代替
+set listchars=tab:\|\ ,trail:.  " 显示特殊字符,其中Tab使用高亮竖线代替,尾部空白使用高亮点号代替
+set whichwrap+=<,>,h,l          " 允许backspace和光标键跨越行边界
+set clipboard+=unnamed          " 共享剪贴板
+set nobackup                    " 设置无备份文件
+set wildmenu                    " 命令行自动完成
+set iskeyword+=_,$,@,%,#,-      " 带有如下符号的单词不要被换行分割
+set foldenable                  " 开启折叠
+set foldmethod=manual           " 手动折叠 manual | indent | marker
+
+" 设置底部状态栏显示
+set statusline=%20*\%f%h%=%-14.(%l,%c%V%)\ %<%p%%\ \ \ [%L]\ \ \ %{strftime('%y-%m-%d\ %A')}
+" 重新打开文件,光标停留在上次编辑的地方
+au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+" 启用每行超过77-80列的字符提示(字体变蓝并加下划线)
+au BufWinEnter * let w:m1=matchadd('Underlined', '\%<81v.\%>77v', -1)
+
+" 返回当前时间
+func! GetTimeInfo()
+    return strftime('%Y-%m-%d %H:%M:%S')
+    "return strftime('%Y-%m-%d')
+endfunction
+
+" 插入模式按 Ctrl + D(ate) 插入当前时间
+imap <C-d> <C-r>=GetTimeInfo()<cr>
+
+" Set leader shortcut to a comma ','. By default it's the backslash
+let mapleader = ","
+
+" fix bug E353: Nothing in register *
+" refer https://github.com/liuchengxu/space-vim/issues/9
+runtime! plugin/default.vim
+set clipboard+=unnamed          " 共享剪贴板
+
+"vim-javascript
+let g:javascript_plugin_jsdoc=1    "Enables syntax highlighting for JSDocs.
+let g:javascript_plugin_ngdoc=1    "Enables some additional syntax highlighting for NGDocs. Requires JSDoc plugin to be enabled as well.
+
+"jsDoc
+let g:jsdoc_enable_es6=1    "Enable to use ECMAScript6's Shorthand function, Arrow function.
+let g:javascript_plugin_flow=1    "Enables syntax highlighting for Flow.
+
+"syntastic
+"set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_highlighting=1
+"let g:syntastic_quiet_messages = { "type": "style" }
+"nnoremap <silent> <C-d> :lclose<CR>:bdelete<CR>
+"cabbrev <silent> bd <C-r>=(getcmdtype()==#':' && getcmdpos()==1 ? 'lclose\|bdelete' : 'bd')<CR>
+
+"vim-jsbeautify
+map <c-m> :call JsBeautify()<cr>
+" or
+autocmd FileType javascript noremap <buffer>  <c-m> :call JsBeautify()<cr>
+" for json
+autocmd FileType json noremap <buffer> <c-m> :call JsonBeautify()<cr>
+" for jsx
+autocmd FileType jsx noremap <buffer> <c-m> :call JsxBeautify()<cr>
+" for html
+" autocmd FileType html noremap <buffer> <c-m> :call HtmlBeautify()<cr>
+" for css or scss
+" autocmd FileType css noremap <buffer> <c-m> :call CSSBeautify()<cr>

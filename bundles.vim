@@ -47,7 +47,8 @@ Bundle 'mileszs/ack.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'Lokaltog/vim-powerline'
-Bundle 'scrooloose/syntastic'
+" Bundle 'scrooloose/syntastic'
+Bundle 'vim-syntastic/syntastic'
 Bundle 'bronson/vim-trailing-whitespace'
 
 "-------------
@@ -74,6 +75,8 @@ Bundle 'nono/jquery.vim'
 " Bundle 'groenewege/vim-less'
 " Bundle 'wavded/vim-stylus'
 " Bundle 'nono/vim-handlebars'
+Bundle 'heavenshell/vim-jsdoc'
+Bundle 'maksimr/vim-jsbeautify'
 
 "------- markup language -------
 Bundle 'tpope/vim-markdown'
@@ -84,6 +87,21 @@ Bundle 'tpope/vim-markdown'
 
 "------- Go ----------
 Bundle 'fatih/vim-go'
+Bundle 'fatih/gomodifytags'
+
+"------- Erlang ----------
+" Bundle 'tpope/vim-pathogen'
+Bundle 'vim-erlang/vim-erlang-skeletons'
+Bundle 'vim-erlang/vim-erlang-omnicomplete'
+Bundle 'vim-erlang/vim-erlang-runtime'
+Bundle 'vim-erlang/vim-erlang-compiler'
+" Bundle 'vim-erlang/vim-erlang-tags'
+" Bundle 'vim-erlang/erlang-motions.vim'
+" Bundle 'vim-erlang/vim-erlang_tools' " Deprecated
+" Bundle 'vim-erlang/vim-rebar'
+" Bundle 'vim-erlang/vim-dialyzer'
+" Bundle 'vim-erlang/vim-compot'
+" Bundle 'youthy/vimerl-complete'
 
 "------- FPs ------
 Bundle 'kien/rainbow_parentheses.vim'
